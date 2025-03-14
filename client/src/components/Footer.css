@@ -1,6 +1,6 @@
 .footer {
-  background-color: white;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+  background-color: var(--dark-background);
+  color: white;
   margin-top: 40px;
 }
 
@@ -20,7 +20,7 @@
 }
 
 .footer-logo {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--primary-color);
   margin-bottom: 15px;
@@ -28,7 +28,7 @@
 }
 
 .footer-description {
-  color: var(--light-text);
+  color: #aaaaaa;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -46,7 +46,7 @@
 .footer h4 {
   font-size: 16px;
   margin-bottom: 15px;
-  color: var(--text-color);
+  color: white;
 }
 
 .footer-links ul {
@@ -59,7 +59,7 @@
 
 .footer a {
   text-decoration: none;
-  color: var(--light-text);
+  color: #aaaaaa;
   font-size: 14px;
   transition: color var(--transition-speed);
 }
@@ -69,10 +69,10 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid #f1f3f4;
+  border-top: 1px solid #333333;
   padding: 20px 30px;
   text-align: center;
-  color: var(--light-text);
+  color: #888888;
   font-size: 13px;
 }
 

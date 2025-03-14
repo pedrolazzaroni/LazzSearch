@@ -1,32 +1,48 @@
 .product-card {
   background-color: white;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: var(--card-shadow);
   transition: transform var(--transition-speed), box-shadow var(--transition-speed);
   display: flex;
   flex-direction: column;
   height: 100%;
+  cursor: pointer;
+  position: relative;
 }
 
 .product-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(255, 85, 0, 0.15);
 }
 
 .product-image {
-  height: 200px;
+  height: 220px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f8f9fa;
+  background-color: #f8f8f8;
+  position: relative;
 }
 
 .product-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.product-store-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .product-info {
@@ -36,13 +52,14 @@
 
 .product-name {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  color: var(--text-color);
 }
 
 .product-store {
@@ -76,16 +93,16 @@
 }
 
 .star.full {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .star.half {
-  color: var(--secondary-color);
+  color: var(--primary-color);
   position: relative;
 }
 
 .star.empty {
-  color: #dadce0;
+  color: #e0e0e0;
 }
 
 .reviews-count {
@@ -94,10 +111,10 @@
 }
 
 .product-price {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--accent-color);
-  margin-bottom: 10px;
+  color: var(--primary-color);
+  margin-bottom: 12px;
 }
 
 .product-description {
@@ -122,8 +139,8 @@
   background-color: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 6px;
+  padding: 10px 12px;
   font-weight: 500;
   cursor: pointer;
   text-align: center;
@@ -132,15 +149,15 @@
 }
 
 .view-deal-btn:hover {
-  background-color: #3367d6;
+  background-color: #e64d00;
 }
 
 .save-btn {
   background: none;
   border: 1px solid #dadce0;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  width: 36px;
+  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -148,15 +165,20 @@
 }
 
 .save-btn:hover {
-  background-color: #f1f3f4;
+  background-color: #f7f7f7;
+  border-color: var(--primary-color);
 }
 
 .save-btn svg {
   fill: var(--light-text);
 }
 
+.save-btn:hover svg {
+  fill: var(--primary-color);
+}
+
 @media (max-width: 500px) {
   .product-image {
-    height: 150px;
+    height: 170px;
   }
 }

@@ -1,6 +1,6 @@
 .header {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--dark-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -23,7 +23,7 @@
 .logo-text {
   font-size: 24px;
   font-weight: 700;
-  color: var(--text-color);
+  color: white;
 }
 
 .logo-highlight {
@@ -37,7 +37,7 @@
 
 .nav-links a {
   text-decoration: none;
-  color: var(--light-text);
+  color: #cccccc;
   font-weight: 500;
   transition: color var(--transition-speed);
   padding: 5px 0;

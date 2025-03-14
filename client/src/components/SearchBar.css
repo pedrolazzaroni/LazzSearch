@@ -48,7 +48,7 @@
 }
 
 .search-button:hover {
-  background-color: #3367d6;
+  background-color: #e64d00; /* Laranja mais escuro no hover */
 }
 
 .search-suggestions {
@@ -76,7 +76,7 @@
 }
 
 .search-suggestions button:hover {
-  background-color: rgba(66, 133, 244, 0.1);
+  background-color: rgba(255, 85, 0, 0.1);
   border-color: var(--primary-color);
 }
 
