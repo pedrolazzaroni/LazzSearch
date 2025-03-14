@@ -5,20 +5,42 @@ const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
+  const [imageRetries, setImageRetries] = useState(0);
   
   // Efeito para resetar o estado da imagem quando o produto muda
   useEffect(() => {
     setImageLoaded(false);
     setImageFailed(false);
-  }, [product.id]);
+    setImageRetries(0);
+  }, [product.id, product.imageUrl]);
   
+  // Formatação de preço com R$ e garantia de 2 casas decimais
   const formatCurrency = (value) => {
+    if (value === null || value === undefined) return '';
+    
+    // Garante que temos um número
+    const numValue = typeof value === 'string' ? parseFloat(value) : value;
+    
+    // Usa Intl.NumberFormat para garantir sempre 2 casas decimais
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
-      currency: 'BRL'
-    }).format(value);
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(numValue);
   };
+  
+  // Calcula o percentual de desconto, se houver
+  const calculateDiscount = () => {
+    if (!product.originalPrice || product.originalPrice <= product.price) return null;
+    
+    const discount = ((product.originalPrice - product.price) / product.originalPrice) * 100;
+    return Math.round(discount); // Arredonda para número inteiro
+  };
+  
+  const discountPercent = calculateDiscount();
 
+  // Renderiza as estrelas de avaliação
   const renderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -45,8 +67,8 @@ const ProductCard = ({ product }) => {
   
   // Função para visitar URL do produto
   const handleCardClick = () => {
-    // Log para analytics
-    console.log(`Redirecionando para: ${product.store} - ${product.name}`);
+    // Registra analytics (simulado)
+    console.log(`Clique: ${product.name} | ${formatCurrency(product.price)} | ${product.store}`);
     
     // Se a URL for válida, abre em nova aba
     if (product.url && product.url.startsWith('http')) {
@@ -72,14 +94,16 @@ const ProductCard = ({ product }) => {
         return;
       }
       
-      // Salva apenas os dados essenciais
+      // Salva os dados essenciais
       savedProducts.push({
         id: product.id,
         name: product.name,
         price: product.price,
+        originalPrice: product.originalPrice,
         store: product.store,
         imageUrl: product.imageUrl,
         url: product.url,
+        rating: product.rating,
         savedAt: new Date().toISOString()
       });
       
@@ -92,31 +116,53 @@ const ProductCard = ({ product }) => {
     }
   };
   
-  // Tratamento melhorado para URLs de imagem quebradas
+  // Estratégia avançada para tratamento de falhas de imagem
   const handleImageError = (e) => {
-    if (imageFailed) return; // Previne loops infinitos
+    // Limita a 3 tentativas para evitar loops infinitos
+    if (imageRetries >= 3) {
+      setImageFailed(true);
+      return;
+    }
     
-    setImageFailed(true);
+    setImageRetries(prev => prev + 1);
     e.target.onerror = null;
     
-    // Cria uma URL baseada no nome do produto para imagem de fallback
-    const encodedName = encodeURIComponent(
-      (product.name || 'produto').split(' ').slice(0, 3).join(' ')
-    );
-    
-    // Tenta uma imagem do Unsplash específica para o produto
-    e.target.src = `https://source.unsplash.com/300x300/?${encodedName.replace(/%20/g, '+')}`;
-    
-    // Se continuar falhando, configura um fallback final
-    e.target.onerror = () => {
-      e.target.src = `https://via.placeholder.com/300x300/FF5500/FFFFFF?text=${encodedName}`;
-      e.target.onerror = null;
-    };
+    // Estratégia em cascata para tentar diferentes fontes de imagem
+    switch (imageRetries) {
+      case 0:
+        // Primeira tentativa: adiciona parâmetro de cache-busting à URL existente
+        if (product.imageUrl.includes('?')) {
+          e.target.src = `${product.imageUrl}&cb=${Date.now()}`;
+        } else {
+          e.target.src = `${product.imageUrl}?cb=${Date.now()}`;
+        }
+        break;
+      
+      case 1:
+        // Segunda tentativa: tenta buscar uma imagem no Unsplash específica para o produto
+        const productTerms = encodeURIComponent(
+          (product.name || '').split(' ').slice(0, 3).join(' ')
+        );
+        e.target.src = `https://source.unsplash.com/400x400/?${productTerms.replace(/%20/g, '+')}`;
+        break;
+      
+      case 2:
+        // Terceira tentativa: usa o produto e a loja para buscar uma imagem mais específica
+        const searchTerms = encodeURIComponent(`${product.store} ${product.name.split(' ')[0]}`);
+        e.target.src = `https://source.unsplash.com/400x400/?${searchTerms.replace(/%20/g, '+')}&product`;
+        break;
+      
+      default:
+        // Fallback final: usa um placeholder com o nome do produto
+        const encodedName = encodeURIComponent(product.name.substring(0, 15));
+        e.target.src = `https://via.placeholder.com/400x400/FF5500/FFFFFF?text=${encodedName}`;
+        setImageFailed(true);
+    }
   };
 
   return (
     <div 
-      className={`product-card ${isHovered ? 'product-card-hover' : ''} ${product.realData ? 'real-data' : 'simulated-data'}`}
+      className="product-card"
       onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -132,27 +178,36 @@ const ProductCard = ({ product }) => {
           style={{ opacity: imageLoaded ? 1 : 0 }}
         />
         <div className="product-store-tag">{product.store}</div>
-        {product.realData === false && <div className="data-source-tag">Simulado</div>}
+        
+        {discountPercent && (
+          <div className="discount-badge">-{discountPercent}%</div>
+        )}
+        
         {isHovered && (
           <div className="product-quick-view">
             <span>Ver oferta na {product.store}</span>
           </div>
         )}
       </div>
+      
       <div className="product-info">
         <h3 className="product-name">{product.name}</h3>
+        
         <div className="product-rating">
           <div className="stars">{renderStars(product.rating || 4)}</div>
           <span className="reviews-count">({product.reviews || 0})</span>
         </div>
+        
         <div className="product-price-container">
-          <div className="product-price">{formatCurrency(product.price || 0)}</div>
+          <div className="product-price">{formatCurrency(product.price)}</div>
           {product.originalPrice && product.originalPrice > product.price && (
             <div className="original-price">{formatCurrency(product.originalPrice)}</div>
           )}
         </div>
+        
         <p className="product-description">{product.description}</p>
       </div>
+      
       <div className="product-actions">
         <a 
           href={product.url} 

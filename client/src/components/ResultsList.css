@@ -54,8 +54,9 @@
   gap: 5px;
 }
 
+/* Removendo os indicadores de qualidade de dados (real vs simulado) */
 .data-quality-indicator {
-  font-size: 14px;
+  display: none;
 }
 
 .data-quality {

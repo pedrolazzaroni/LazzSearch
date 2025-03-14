@@ -9,6 +9,7 @@
   height: 100%;
   cursor: pointer;
   position: relative;
+  border: 1px solid #f0f0f0;
 }
 
 .product-card.real-data {
@@ -104,6 +105,33 @@
   z-index: 2;
 }
 
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--error-color);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  animation: pulse-discount 2s infinite;
+}
+
+@keyframes pulse-discount {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .data-source-tag {
   position: absolute;
   top: 10px;
@@ -116,6 +144,11 @@
   font-weight: 500;
   opacity: 0.9;
   z-index: 2;
+}
+
+/* Quando temos badge de desconto e tag de dados simulados juntos */
+.discount-badge + .data-source-tag {
+  top: 42px; /* Move para baixo quando há um desconto */
 }
 
 .product-info {

@@ -29,6 +29,7 @@
   box-shadow: var(--card-shadow);
   border-radius: 24px;
   overflow: hidden;
+  position: relative;
 }
 
 .search-input {
@@ -37,6 +38,15 @@
   border: none;
   font-size: 16px;
   outline: none;
+  padding-left: 45px; /* Espaço para o ícone */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 0 24 24' width='24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z' fill='%23999999'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  background-size: 20px;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 2px var(--primary-color);
 }
 
 .search-button {
@@ -49,6 +59,10 @@
 
 .search-button:hover {
   background-color: #e64d00; /* Laranja mais escuro no hover */
+}
+
+.search-button:active {
+  transform: scale(0.95);
 }
 
 .search-suggestions {
@@ -68,16 +82,76 @@
   background: none;
   border: 1px solid #dadce0;
   border-radius: 16px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   font-size: 14px;
   color: var(--text-color);
   cursor: pointer;
-  transition: background-color var(--transition-speed);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
 }
 
 .search-suggestions button:hover {
   background-color: rgba(255, 85, 0, 0.1);
   border-color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.search-suggestions button::before {
+  content: '🔍';
+  margin-right: 5px;
+  font-size: 12px;
+}
+
+.search-history {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 5px;
+}
+
+.search-history h4 {
+  padding: 10px 15px;
+  margin: 0;
+  border-bottom: 1px solid #f1f3f4;
+  font-size: 14px;
+  color: var(--light-text);
+}
+
+.search-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-history li {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.search-history li:hover {
+  background-color: #f5f5f5;
+}
+
+.history-query {
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.history-date {
+  font-size: 12px;
+  color: var(--light-text);
 }
 
 @media (max-width: 768px) {
