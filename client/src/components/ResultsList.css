@@ -48,6 +48,60 @@
   gap: 20px;
 }
 
+.results-title {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.data-quality-indicator {
+  font-size: 14px;
+}
+
+.data-quality {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.data-quality.real {
+  background-color: rgba(52, 168, 83, 0.1);
+  color: rgb(52, 168, 83);
+}
+
+.data-quality.simulated {
+  background-color: rgba(251, 188, 5, 0.1);
+  color: rgb(251, 188, 5);
+}
+
+.price-range-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.price-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.price-label {
+  font-size: 12px;
+  color: var(--light-text);
+}
+
+.price-value {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
 @media (max-width: 768px) {
   .results-header {
     flex-direction: column;

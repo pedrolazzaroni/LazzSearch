@@ -30,6 +30,10 @@
   color: var(--primary-color);
 }
 
+.logo-link {
+  text-decoration: none;
+}
+
 .nav-links {
   display: flex;
   gap: 20px;
@@ -46,6 +50,27 @@
 .nav-links a:hover, .nav-links a.active {
   color: var(--primary-color);
   border-bottom: 2px solid var(--primary-color);
+}
+
+.dev-tool-button {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.dev-tool-button:hover {
+  background: #666;
+}
+
+.dev-tool-button:disabled {
+  background: #333;
+  cursor: wait;
 }
 
 @media (max-width: 768px) {

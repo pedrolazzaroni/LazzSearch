@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import SearchBar from './components/SearchBar';
 import ResultsList from './components/ResultsList';
@@ -6,8 +7,9 @@ import Loader from './components/Loader';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import EmptyState from './components/EmptyState';
+import AboutPage from './components/AboutPage';
 
-function App() {
+function HomePage() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -39,23 +41,34 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <Header />
-      <main className="main-content">
-        <SearchBar onSearch={handleSearch} />
-        
-        {loading && <Loader />}
-        
-        {error && <div className="error-message">{error}</div>}
-        
-        {!loading && searched && !error && results.length === 0 && (
-          <EmptyState message="Nenhum produto encontrado. Tente uma nova busca." />
-        )}
-        
-        {!loading && results.length > 0 && <ResultsList products={results} />}
-      </main>
-      <Footer />
-    </div>
+    <main className="main-content">
+      <SearchBar onSearch={handleSearch} />
+      
+      {loading && <Loader />}
+      
+      {error && <div className="error-message">{error}</div>}
+      
+      {!loading && searched && !error && results.length === 0 && (
+        <EmptyState message="Nenhum produto encontrado. Tente uma nova busca." />
+      )}
+      
+      {!loading && results.length > 0 && <ResultsList products={results} />}
+    </main>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
